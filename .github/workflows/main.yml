@@ -11,7 +11,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -33,16 +32,28 @@ jobs:
 
       - name: Container Runtime Simulation
         env:
-          DOCKER_USERNAME: apoloyasudadocker
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          EC_REV_V1: v1.hokkaido.213
         run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           cd ./spec/agent && docker build -t $DOCKER_HUB_AGENT_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
           cd ./spec/plugin && docker build -t $DOCKER_HUB_PLUGIN_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
           cd ./spec/loadbalancer && docker build -t $DOCKER_HUB_LOADBALANCER_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+   
+      - name: Container Images Deployment
+        if: github.event.pull_request.merged == true
+        env:
+          DOCKER_USERNAME: apoloyasudadocker
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push $DOCKER_HUB_AGENT_TAG
+          docker push $DOCKER_HUB_PLUGIN_TAG
+          docker push $DOCKER_HUB_LOADBALANCER_TAG
+          docker tag $DOCKER_HUB_AGENT_TAG $GITHUB_AGENT_TAG
+          docker tag $DOCKER_HUB_PLUGIN_TAG $GITHUB_PLUGIN_TAG
+          docker tag $DOCKER_HUB_LOADBALANCER_TAG $GITHUB_LOADBALANCER_TAG
+          echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
+          docker push $GITHUB_AGENT_TAG
+          docker push $GITHUB_PLUGIN_TAG
+          docker push $GITHUB_LOADBALANCER_TAG 
+    
