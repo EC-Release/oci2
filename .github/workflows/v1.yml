@@ -44,7 +44,7 @@ jobs:
         run: |
           echo hello world
       - name: Container Images Deployment
-        if: github.event.pull_request.merged == true
+        #if: github.event.pull_request.merged == true
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
