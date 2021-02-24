@@ -1,7 +1,4 @@
-
-# This is a basic workflow to help you get started with Actions
-
-name: CI
+name: oci-spec-ci
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
   push:
