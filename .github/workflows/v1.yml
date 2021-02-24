@@ -17,7 +17,7 @@ jobs:
     env:
       DOCKER_HUB_AGENT_TAG: "enterpriseconnect/agent:v1"
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1"
-      DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/loadbalancer:v1"
+      DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/lb:v1"
     #- DOCKER_HUB_BUILD_TAG="enterpriseconnect/build:v1"
       GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:v1"
       GITHUB_PLUGIN_TAG: "ghcr.io/ec-release/plugins:v1"
