@@ -19,9 +19,9 @@ jobs:
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1"
       DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/loadbalancer:v1"
     #- DOCKER_HUB_BUILD_TAG="enterpriseconnect/build:v1"
-      GITHUB_AGENT_TAG: "ghcr.io/ec-release/oci/agent:v1"
-      GITHUB_PLUGIN_TAG: "ghcr.io/ec-release/oci/plugins:v1"
-      GITHUB_LOADBALANCER_TAG: "ghcr.io/ec-release/oci/locadbalancer:v1"
+      GITHUB_AGENT_TAG: "ghcr.io/ec-release/oci2/agent:v1"
+      GITHUB_PLUGIN_TAG: "ghcr.io/ec-release/oci2/plugins:v1"
+      GITHUB_LOADBALANCER_TAG: "ghcr.io/ec-release/oci2/locadbalancer:v1"
     #- GITHUB_BUILD_TAG="docker.pkg.github.com/ec-release/oci/build:v1"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
@@ -39,7 +39,7 @@ jobs:
           cd ./spec/loadbalancer && docker build -t $DOCKER_HUB_LOADBALANCER_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
    
       - name: Container Images Deployment
-        if: github.event.pull_request.merged == true
+        #if: github.event.pull_request.merged == true
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
