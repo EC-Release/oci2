@@ -10,16 +10,16 @@
 #  author: apolo.yasuda@ge.com
 #
 
-FROM enterpriseconnect/agent:v1
+FROM enterpriseconnect/agent:v1beta
 
 MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 
-ARG EC_REV_V1BETA=v1.hokkaido.212
+ARG EC_REV_V1BETA=v1beta.fukuoka.1728
 
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt"]
+RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1beta.linux64.txt"]
 
 RUN apk add --no-cache git
 
-RUN chmod +x ~/v1.linux64.sh
+RUN chmod +x ./v1.linux64.sh
 
 ENTRYPOINT ["./v1.linux64.sh"]
