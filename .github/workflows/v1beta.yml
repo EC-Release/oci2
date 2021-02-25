@@ -1,6 +1,5 @@
 name: oci-spec-ci
 on:
-  # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
   push:
     branches: [ v1beta_oci_spec ]
   pull_request:
@@ -9,18 +8,19 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     env:
       DOCKER_HUB_AGENT_TAG: "enterpriseconnect/agent:v1beta"
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1beta"
-      DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/loadbalancer:v1beta"
+      DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/lb:v1beta"
+    #- DOCKER_HUB_BUILD_TAG="enterpriseconnect/build:v1"
       GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:v1beta"
       GITHUB_PLUGIN_TAG: "ghcr.io/ec-release/plugins:v1beta"
       GITHUB_LOADBALANCER_TAG: "ghcr.io/ec-release/lb:v1beta"
+    #- GITHUB_BUILD_TAG="docker.pkg.github.com/ec-release/oci/build:v1"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -28,14 +28,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Container Runtime Simulation
+      - name: Container Runtime Building
         env:
           EC_REV_V1BETA: v1beta.fukuoka.1728
         run: |
           cd ./spec/agent && docker build -t $DOCKER_HUB_AGENT_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
           cd ./spec/plugin && docker build -t $DOCKER_HUB_PLUGIN_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
           cd ./spec/loadbalancer && docker build -t $DOCKER_HUB_LOADBALANCER_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
-   
+          
+      - name: Container Test
+        env:
+          EC_REV_V1: v1beta.fukuoka.1728
+        run: |
+          chmod +x ./scripts/docker-deployment-sim.sh
+          ./scripts/docker-deployment-sim.sh
+        
       - name: Container Images Deployment
         #if: github.event.pull_request.merged == true
         env:
@@ -53,5 +60,4 @@ jobs:
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
           docker push $GITHUB_AGENT_TAG
           docker push $GITHUB_PLUGIN_TAG
-          docker push $GITHUB_LOADBALANCER_TAG 
-    
+          docker push $GITHUB_LOADBALANCER_TAG
