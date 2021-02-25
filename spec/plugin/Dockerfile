@@ -20,6 +20,6 @@ RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1beta.linux64.sh https://
 
 RUN apk add --no-cache git
 
-RUN chmod +x ./v1.linux64.sh
+RUN chmod +x ./v1beta.linux64.sh
 
-ENTRYPOINT ["./v1.linux64.sh"]
+ENTRYPOINT ["./v1beta.linux64.sh"]
