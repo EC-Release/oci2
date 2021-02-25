@@ -17,7 +17,7 @@ MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 USER root
 WORKDIR /root
 
-ARG EC_REV_V1BETA=v1.hokkaido.212
+ARG EC_REV_V1BETA=v1beta.fukuoka.1728
 
 ENV ENV="/etc/profile"
 
@@ -27,9 +27,9 @@ RUN apk add --no-cache jq && apk add --no-cache git
 
 RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile
 
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt"]
+RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1beta.linux64.txt"]
 
 
-RUN chmod +x ~/v1.linux64.sh
+RUN chmod +x ~/v1beta.linux64.sh
 
-ENTRYPOINT ["./v1.linux64.sh"]
+ENTRYPOINT ["~/v1beta.linux64.sh"]
