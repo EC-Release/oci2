@@ -38,7 +38,7 @@ jobs:
           
       - name: Container Test
         env:
-          EC_REV_V1: v1beta.fukuoka.1728
+          AGENT_REV: v1beta.fukuoka.1728
         run: |
           chmod +x ./scripts/docker-deployment-sim.sh
           ./scripts/docker-deployment-sim.sh
