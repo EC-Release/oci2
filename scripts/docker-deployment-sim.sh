@@ -2,9 +2,9 @@
 #printf "\n\n\n*** test v1 agt mode w/ docker\n\n"
 #docker run -rm --env-file=test/gateway.env enterpriseconnect/agent:v1 -ver
 printf "\n\n\n*** test v1 agt mode w/ docker\n\n"
-docker run --rm --env-file=e2e/gateway.env enterpriseconnect/agent:v1 -ver
+docker run -e AGENT_REV=${AGENT_REV} -e EC_PPS=${EC_PPS} --env-file=e2e/gateway.env enterpriseconnect/agent:v1 -ver
 printf "\n\n\n*** test lber w/ docker\n\n"
-docker run --rm enterpriseconnect/lb:v1
+docker run enterpriseconnect/lb:v1
 
 printf "\n\n\n*** test server+tls v1 plugin w/ docker\n\n"
 #docker run -it --rm -d --name server-tls --env-file=k8s/example/server+tls.env enterpriseconnect/plugins:v1 && sleep 5 && docker logs server-tls 
