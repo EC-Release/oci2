@@ -14,6 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    environment: v1
     env:
       DOCKER_HUB_AGENT_TAG: "enterpriseconnect/agent:v1"
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1"
@@ -41,6 +42,7 @@ jobs:
       - name: Container Test
         env:
           AGENT_REV: v1.hokkaido.213
+          EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
         run: |
           chmod +x ./scripts/docker-deployment-sim.sh
           ./scripts/docker-deployment-sim.sh
