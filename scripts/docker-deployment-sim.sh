@@ -11,3 +11,5 @@ printf "\n\n\n*** test server+tls v1 plugin w/ docker\n\n"
 docker run --rm --name server-tls --env-file=e2e/server+tls.env enterpriseconnect/plugins:v1 -ver
 printf "\n\n\n*** test client+vln v1 plugin w/ docker\n\n"
 docker run --rm --name client-vln --env-file=e2e/client+vln.env enterpriseconnect/plugins:v1 -ver
+printf "\n\n\n*** test lber w/ docker\n"
+#docker run --rm --name client-vln --env-file=e2e/lber.env enterpriseconnect/lb:v1 -ver
