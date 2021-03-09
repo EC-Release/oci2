@@ -1,0 +1,53 @@
+name: v1.2beta_api_ci
+on:
+  # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
+  push:
+    branches: [ v1.2beta_api ]
+  pull_request:
+    branches: [ v1.2beta_api ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    environment: v1
+    env:
+      DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1"
+      GITHUB_API_TAG: "ghcr.io/ec-release/api:v1"
+      GITHUB_REGISTRY: "https://ghcr.io"
+      GITHUB_USR: "ayasuda-ge"
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Container Runtime Building
+        env:
+          EC_REV_V1: v1.hokkaido.213
+        run: |
+          cd ./spec/api && docker build -t $DOCKER_HUB_API_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
+       
+      - name: Container Test
+        env:
+          AGENT_REV: v1.hokkaido.213
+          #EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
+        run: |
+          chmod +x ./scripts/docker-deployment-sim.sh
+          ./scripts/docker-deployment-sim.sh
+      - name: Container Images Deployment
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true        
+        env:
+          DOCKER_USERNAME: apoloyasudadocker
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push $DOCKER_HUB_API_TAG
+          docker tag $DOCKER_HUB_API_TAG $GITHUB_API_TAG
+          echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
+          docker push $GITHUB_API_TAG
+    
