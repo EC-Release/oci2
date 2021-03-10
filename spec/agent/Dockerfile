@@ -32,4 +32,4 @@ RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1beta.linux64.sh https://
 
 RUN chmod +x ~/v1beta.linux64.sh
 
-ENTRYPOINT ["~/v1beta.linux64.sh"]
+ENTRYPOINT ["./v1beta.linux64.sh"]
