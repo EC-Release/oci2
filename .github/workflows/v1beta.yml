@@ -1,7 +1,7 @@
 name: oci-spec-ci
 on:
-  #push:
-    #branches: [ v1beta_oci_spec ]
+  push:
+    branches: [ v1beta_oci_spec ]
   pull_request:
     branches: [ v1beta_oci_spec ]
     types: [opened, synchronize]
@@ -46,7 +46,7 @@ jobs:
           ./scripts/docker-deployment-sim.sh
         
       - name: Container Images Deployment
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        if: github.event_name == 'push'
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
