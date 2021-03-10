@@ -15,8 +15,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     environment: v1
     env:
-      DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1"
-      GITHUB_API_TAG: "ghcr.io/ec-release/api:v1"
+      DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
+      GITHUB_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
