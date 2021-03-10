@@ -1,8 +1,8 @@
 name: v1.2beta_api_ci
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
-  #push:
-  #  branches: [ v1.2beta_api ]
+  push:
+    branches: [ v1.2beta_api ]
   
   pull_request:
     branches: [ v1.2beta_api ]
@@ -41,7 +41,8 @@ jobs:
           chmod +x ./scripts/docker-deployment-sim.sh
           ./scripts/docker-deployment-sim.sh
       - name: Container Images Deployment
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true        
+        #if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true        
+        if: github.event_name == 'push'       
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
