@@ -5,6 +5,7 @@ on:
     branches: [ v1_oci_spec ]
   pull_request:
     branches: [ v1_oci_spec ]
+    types: [opened, synchronize]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -47,7 +48,7 @@ jobs:
           chmod +x ./scripts/docker-deployment-sim.sh
           ./scripts/docker-deployment-sim.sh
       - name: Container Images Deployment
-        #if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true        
+        if: github.event_name == 'push'
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
