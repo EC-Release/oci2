@@ -16,7 +16,9 @@ jobs:
     environment: v1
     env:
       DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
+      DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/oauth:v1.2beta"
       GITHUB_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
+      GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -28,6 +30,7 @@ jobs:
           EC_REV_V1: v1.hokkaido.213
         run: |
           cd ./spec/api && docker build -t $DOCKER_HUB_API_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
+          cd ./spec/oauth && docker build -t $DOCKER_HUB_OAUTH_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
        
       - name: Container Test
         env:
@@ -46,8 +49,11 @@ jobs:
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           docker push $DOCKER_HUB_API_TAG
+          docker push $DOCKER_HUB_OAUTH_TAG
           docker tag $DOCKER_HUB_API_TAG $GITHUB_API_TAG
+          docker tag $DOCKER_HUB_OAUTH_TAG $GITHUB_OAUTH_TAG
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
           docker push $GITHUB_API_TAG
+          docker push $GITHUB_OAUTH_TAG
     
 
