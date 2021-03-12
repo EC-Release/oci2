@@ -1,9 +1,9 @@
-name: oci-spec-ci
+name: v1beta-ci
 on:
   push:
-    branches: [ v1beta_oci_spec ]
+    branches: [ v1beta ]
   pull_request:
-    branches: [ v1beta_oci_spec ]
+    branches: [ v1beta ]
     types: [opened, synchronize]
 
   # Allows you to run this workflow manually from the Actions tab
