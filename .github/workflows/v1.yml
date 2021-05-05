@@ -1,10 +1,10 @@
-name: oci-spec-ci
+name: v1
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
   push:
-    branches: [ v1_oci_spec ]
+    branches: [ v1 ]
   pull_request:
-    branches: [ v1_oci_spec ]
+    branches: [ v1]
     types: [opened, synchronize]
 
   # Allows you to run this workflow manually from the Actions tab
