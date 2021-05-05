@@ -18,11 +18,11 @@ jobs:
       DOCKER_HUB_AGENT_TAG: "enterpriseconnect/agent:v1beta"
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1beta"
       DOCKER_HUB_LOADBALANCER_TAG: "enterpriseconnect/lb:v1beta"
-      DOCKER_HUB_BUILD_TAG: "enterpriseconnect/build:v1beta"
+      #DOCKER_HUB_BUILD_TAG: "enterpriseconnect/build:v1beta"
       GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:v1beta"
       GITHUB_PLUGIN_TAG: "ghcr.io/ec-release/plugins:v1beta"
       GITHUB_LOADBALANCER_TAG: "ghcr.io/ec-release/lb:v1beta"
-      GITHUB_BUILD_TAG: "docker.pkg.github.com/ec-release/oci/build:v1beta"
+      #GITHUB_BUILD_TAG: "docker.pkg.github.com/ec-release/oci/build:v1beta"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -37,7 +37,7 @@ jobs:
           cd ./spec/agent && docker build -t $DOCKER_HUB_AGENT_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
           cd ./spec/plugin && docker build -t $DOCKER_HUB_PLUGIN_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
           cd ./spec/loadbalancer && docker build -t $DOCKER_HUB_LOADBALANCER_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
-          cd ./spec/build && docker build -t $DOCKER_HUB_BUILD_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
+          #cd ./spec/build && docker build -t $DOCKER_HUB_BUILD_TAG --build-arg EC_REV_V1BETA=${EC_REV_V1BETA} . && cd -
           
       - name: Container Test
         env:
@@ -57,7 +57,7 @@ jobs:
           docker push $DOCKER_HUB_AGENT_TAG
           docker push $DOCKER_HUB_PLUGIN_TAG
           docker push $DOCKER_HUB_LOADBALANCER_TAG
-          docker push $DOCKER_HUB_BUILD_TAG
+          #docker push $DOCKER_HUB_BUILD_TAG
           docker tag $DOCKER_HUB_AGENT_TAG $GITHUB_AGENT_TAG
           docker tag $DOCKER_HUB_PLUGIN_TAG $GITHUB_PLUGIN_TAG
           docker tag $DOCKER_HUB_LOADBALANCER_TAG $GITHUB_LOADBALANCER_TAG
@@ -65,4 +65,4 @@ jobs:
           docker push $GITHUB_AGENT_TAG
           docker push $GITHUB_PLUGIN_TAG
           docker push $GITHUB_LOADBALANCER_TAG
-          docker push $GITHUB_BUILD_TAG
+          #docker push $GITHUB_BUILD_TAG
