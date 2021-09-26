@@ -27,6 +27,8 @@ apk add build-base && \
 apk add --update coreutils && \
 apk add curl
 
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
 RUN ["/bin/bash", "-c", "wget -q --show-progress -O ./v1.2beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt"]
 
 RUN chmod +x ./v1.2beta.linux64.sh
