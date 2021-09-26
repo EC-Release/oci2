@@ -24,7 +24,8 @@ apk add --upgrade jq && \
 jq --version && \
 apk add yq && \
 apk add build-base && \
-apk add --update coreutils
+apk add --update coreutils && \
+apk add curl
 
 RUN ["/bin/bash", "-c", "wget -q --show-progress -O ./v1.2beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt"]
 
