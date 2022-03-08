@@ -38,7 +38,7 @@ jobs:
         run: |
           docker run $GITHUB_AGENT_TAG -ver
       - name: Container Images Deployment
-        if: github.event_name == 'push'
+        #if: github.event_name == 'push'
         env:
           REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
         run: |
