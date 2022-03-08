@@ -1,11 +1,11 @@
 name: EC Beta 1.2
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
-  push:
-    branches: [ 1.2-b ]
-  pull_request:
-    branches: [ 1.2-b ]
-    types: [opened, synchronize]
+  #push:
+  #  branches: [ 1.2-b ]
+  #pull_request:
+  #  branches: [ 1.2-b ]
+  #  types: [opened, synchronize]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
