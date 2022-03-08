@@ -1,0 +1,45 @@
+name: EC Beta 1.2
+on:
+  # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
+  push:
+    branches: [ 1.2-b ]
+  pull_request:
+    branches: [ 1.2-b ]
+    types: [opened, synchronize]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    environment: v1
+    env:
+      GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:1.2-b"
+      GITHUB_REGISTRY: "https://ghcr.io"
+      GITHUB_USR: "ayasuda-ge"
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - name: Container Runtime Building
+        env:
+          EC_REV_V1: 1.2-b
+        run: |
+          cd ./spec/agt && docker build -t $GITHUB_AGENT_TAG . && cd -
+   
+      - name: Container Test
+        env:
+          AGENT_REV: temp
+          EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
+        run: |
+          docker run $GITHUB_AGENT_TAG -ver
+      - name: Container Images Deployment
+        if: github.event_name == 'push'
+        env:
+          REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
+        run: |
+          echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
+          docker push $GITHUB_AGENT_TAG
