@@ -18,19 +18,10 @@ USER root
 WORKDIR /root
 
 RUN apk update && \
-apk add --no-cache wget && \
-apk add --no-cache bash && \
-apk add --upgrade jq && \
-jq --version && \
-apk add yq && \
-apk add build-base && \
-apk add --update coreutils && \
-apk add curl
+apk add --no-cache wget bash jq yq build-base coreutils curl
 
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apk update && apk add bash wget && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt) "$@"' >> ./.ec/~tmp && \
+chmod +x ./.ec/~tmp && ls -la ./.ec/
 
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ./v1.2beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt"]
-
-RUN chmod +x ./v1.2beta.linux64.sh
-
-ENTRYPOINT ["./v1.2beta.linux64.sh"]
+ENTRYPOINT ["./.ec/~tmp"]
