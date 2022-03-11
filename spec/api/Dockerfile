@@ -22,6 +22,6 @@ apk add --no-cache wget bash jq yq build-base coreutils curl
 
 RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apk update && apk add bash wget && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
 echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt) "$@"' >> ./.ec/~tmp && \
-chmod +x ./.ec/~tmp && ls -la ./.ec/
+chmod +x ./.ec/~tmp
 
 ENTRYPOINT ["./.ec/~tmp"]
