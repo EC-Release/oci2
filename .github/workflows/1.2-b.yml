@@ -1,4 +1,4 @@
-name: EC Beta 1.2
+name: Publish EC 1.2-b OCI Specs
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
   #push:
@@ -17,6 +17,7 @@ jobs:
     environment: v1
     env:
       GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:1.2-b"
+      GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -30,6 +31,7 @@ jobs:
           EC_REV_V1: 1.2-b
         run: |
           cd ./spec/agt && docker build -t $GITHUB_AGENT_TAG . && cd -
+          cd ./spec/api && docker build -t $GITHUB_API_TAG . && cd -
    
       - name: Container Test
         env:
@@ -37,6 +39,7 @@ jobs:
           EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
         run: |
           docker run $GITHUB_AGENT_TAG -ver
+          docker run $GITHUB_API_TAG -ver
       - name: Container Images Deployment
         #if: github.event_name == 'push'
         env:
@@ -44,3 +47,4 @@ jobs:
         run: |
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
           docker push $GITHUB_AGENT_TAG
+          docker push $GITHUB_API_TAG
