@@ -19,17 +19,10 @@ WORKDIR /root
 
 ARG EC_REV_V1BETA=v1.hokkaido.212
 
-ENV ENV="/etc/profile"
+RUN apk update && apk add --no-cache wget bash jq git
 
-RUN apk update && apk add --no-cache wget && apk add --no-cache bash
+RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apk update && apk add bash wget && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64_conf.txt) "$@"' >> ./.ec/~tmp && \
+chmod +x ./.ec/~tmp
 
-RUN apk add --no-cache jq && apk add --no-cache git
-
-RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile
-
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ./v1.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt"]
-
-
-RUN chmod +x ./v1.linux64.sh
-
-ENTRYPOINT ["./v1.linux64.sh"]
+ENTRYPOINT ["./.ec/~tmp"]
