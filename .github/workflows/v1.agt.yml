@@ -1,0 +1,49 @@
+name: Build Agent v1 OCI Spec Only
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    environment: v1
+    env:
+      DOCKER_HUB_AGENT_TAG: "enterpriseconnect/agent:v1"
+      GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:v1"
+      GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:v1"
+      GITHUB_REGISTRY: "https://ghcr.io"
+      GITHUB_USR: "ayasuda-ge"
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Container Runtime Building
+        env:
+          EC_REV_V1: v1.hokkaido.213
+        run: |
+          cd ./spec/agent && docker build -t $DOCKER_HUB_AGENT_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
+          
+      - name: Container Test
+        env:
+          AGENT_REV: v1.hokkaido.213
+          EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
+        run: |
+          docker run -e AGENT_REV="$AGENT_REV" -e EC_PPS="$EC_PPS" "$DOCKER_HUB_AGENT_TAG" -ver
+      - name: Container Images Deployment
+        if: github.event_name == 'push'
+        env:
+          DOCKER_USERNAME: apoloyasudadocker
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push $DOCKER_HUB_AGENT_TAG
+          docker tag $DOCKER_HUB_AGENT_TAG $GITHUB_AGENT_TAG
+          docker tag $GITHUB_AGENT_TAG $GITHUB_AGT_TAG
+          echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
+          docker push $GITHUB_AGENT_TAG
+          docker push $GITHUB_AGT_TAG
+    
