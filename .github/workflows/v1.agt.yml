@@ -33,7 +33,7 @@ jobs:
         run: |
           docker run -e AGENT_REV="$AGENT_REV" -e EC_PPS="$EC_PPS" "$DOCKER_HUB_AGENT_TAG" -ver
       - name: Container Images Deployment
-        if: github.event_name == 'push'
+        #if: github.event_name == 'push'
         env:
           DOCKER_USERNAME: apoloyasudadocker
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
