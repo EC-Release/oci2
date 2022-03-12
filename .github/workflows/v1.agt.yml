@@ -1,4 +1,4 @@
-name: Build Agent v1 OCI Spec Only
+name: Publish EC v1 OCI Spec (Agt)
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
