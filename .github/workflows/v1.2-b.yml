@@ -1,12 +1,5 @@
 name: Publish EC v1.2-b Specs
 on:
-  push:
-    branches: [ v1.2beta ]
-  
-  pull_request:
-    branches: [ v1.2beta ]
-    types: [opened, synchronize]
-    
   workflow_dispatch:
 
 jobs:
