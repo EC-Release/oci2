@@ -1,4 +1,4 @@
-name: Publish EC 1.2-b OCI Specs
+name: Publish EC 1.2-b Specs
 on:
   # Triggers the workflow on push or pull request events but only for the v1.1beta_helm_pkg_update_lber_ay branch
   #push:
@@ -16,8 +16,9 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     environment: v1
     env:
-      GITHUB_AGENT_TAG: "ghcr.io/ec-release/agt:1.2-b"
+      GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:1.2-b"
       GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
+      GITHUB_SDC_TAG: "ghcr.io/ec-release/sdc:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -30,7 +31,8 @@ jobs:
         env:
           EC_REV_V1: 1.2-b
         run: |
-          cd ./spec/agt && docker build -t $GITHUB_AGENT_TAG . && cd -
+          cd ./spec/sdc && docker build -t $GITHUB_SDC_TAG . && cd -
+          cd ./spec/agt && docker build -t $GITHUB_AGT_TAG . && cd -
           cd ./spec/api && docker build -t $GITHUB_API_TAG . && cd -
    
       - name: Container Test
@@ -47,5 +49,6 @@ jobs:
           REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
         run: |
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
-          docker push $GITHUB_AGENT_TAG
+          docker push $GITHUB_AGT_TAG
+          docker push $GITHUB_SDC_TAG
           docker push $GITHUB_API_TAG
