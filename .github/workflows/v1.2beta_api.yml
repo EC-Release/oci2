@@ -17,8 +17,8 @@ jobs:
     env:
       DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
       DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/oauth:v1.2beta"
-      GITHUB_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
-      GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
+      GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
+      GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
