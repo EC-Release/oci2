@@ -40,7 +40,7 @@ jobs:
           AGENT_REV: temp
           EC_PPS: ${{secrets.EC_PPS_2_DECRYPT_213}}
         run: |
-          docker run $GITHUB_AGENT_TAG -ver
+          docker run $GITHUB_AGT_TAG -ver
           #runtime test resplaced by int test
           #docker run $GITHUB_API_TAG -ver
       - name: Container Images Deployment
