@@ -1,4 +1,4 @@
-name: v1.2beta_ci
+name: Publish EC v1.2-b Specs
 on:
   push:
     branches: [ v1.2beta ]
@@ -15,8 +15,10 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     environment: v1
     env:
+      DOCKER_HUB_AGT_TAG: "enterpriseconnect/agt:1.2-b"
       DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
       DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:1.2-b"
       GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
       GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
@@ -27,10 +29,11 @@ jobs:
 
       - name: Container Runtime Building
         env:
-          EC_REV_V1: v1.hokkaido.213
+          EC_REV_V1: v1.2-b
         run: |
-          cd ./spec/api && docker build -t $DOCKER_HUB_API_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
-          cd ./spec/oauth && docker build -t $DOCKER_HUB_OAUTH_TAG --build-arg EC_REV_V1=${EC_REV_V1} . && cd -
+          cd ./spec/agt && docker build -t $DOCKER_HUB_AGT_TAG . && cd -
+          cd ./spec/api && docker build -t $DOCKER_HUB_API_TAG . && cd -
+          cd ./spec/oauth && docker build -t $DOCKER_HUB_OAUTH_TAG . && cd -
        
       - name: Container Test
         env:
@@ -48,12 +51,13 @@ jobs:
           REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push $DOCKER_HUB_AGT_TAG
           docker push $DOCKER_HUB_API_TAG
           docker push $DOCKER_HUB_OAUTH_TAG
+          docker tag $DOCKER_HUB_AGT_TAG $GITHUB_AGT_TAG
           docker tag $DOCKER_HUB_API_TAG $GITHUB_API_TAG
           docker tag $DOCKER_HUB_OAUTH_TAG $GITHUB_OAUTH_TAG
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
+          docker push $GITHUB_AGT_TAG
           docker push $GITHUB_API_TAG
           docker push $GITHUB_OAUTH_TAG
-    
-
