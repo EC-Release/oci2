@@ -16,7 +16,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     environment: v1
     env:
-      GITHUB_AGENT_TAG: "ghcr.io/ec-release/agent:1.2-b"
+      GITHUB_AGENT_TAG: "ghcr.io/ec-release/agt:1.2-b"
       GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
