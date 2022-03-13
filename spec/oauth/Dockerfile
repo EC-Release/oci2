@@ -10,19 +10,15 @@
 #  author: apolo.yasuda@ge.com
 #
 
-FROM alpine:latest
+FROM python:alpine
 
 MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 
 USER root
 WORKDIR /root
 
-RUN apk update && apk add --no-cache wget && apk add --no-cache bash
+RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apk update && apk add wget bash jq yq build-base coreutils curl && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/oauth/v1.2beta.linux64.txt) "$@"' >> ./.ec/~tmp && \
+chmod +x ./.ec/~tmp
 
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ./v1.2beta.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/oauth/v1.2beta.linux64.txt"]
-
-RUN chmod +x ./v1.2beta.linux64.sh
-
-ENTRYPOINT ["./v1.2beta.linux64.sh"]
-
-CMD ["-inf"]
+ENTRYPOINT ["./.ec/~tmp"]
