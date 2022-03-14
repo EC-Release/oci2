@@ -24,7 +24,9 @@ jobs:
       
       # old tag
       DOCKER_ATH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      DOCKER_API_TAG: "enterpriseconnect/api:v1.2beta"
       GITHUB_ATH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
+      GITHUB_OLD_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -63,3 +65,9 @@ jobs:
           docker tag $GITHUB_SDC_TAG $GITHUB_ATH_TAG
           docker push $DOCKER_ATH_TAG
           docker push $GITHUB_ATH_TAG
+          docker tag $GITHUB_API_TAG $DOCKER_API_TAG
+          docker tag $GITHUB_API_TAG $GITHUB_OLD_API_TAG
+          docker push $DOCKER_API_TAG
+          docker push $GITHUB_OLD_API_TAG
+          
+          
