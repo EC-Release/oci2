@@ -21,6 +21,10 @@ jobs:
       GITHUB_SDC_TAG: "ghcr.io/ec-release/sdc:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
+      
+      # old tag
+      DOCKER_ATH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      GITHUB_ATH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -47,8 +51,15 @@ jobs:
         #if: github.event_name == 'push'
         env:
           REGISTRY_TKN_GITHUB: ${{secrets.REGISTRY_TKN_GITHUB}}
+          DOCKER_USERNAME: apoloyasudadocker
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}        
         run: |
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
           docker push $GITHUB_AGT_TAG
           docker push $GITHUB_SDC_TAG
           docker push $GITHUB_API_TAG
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker tag $GITHUB_SDC_TAG $DOCKER_ATH_TAG
+          docker tag $GITHUB_SDC_TAG $GITHUB_ATH_TAG
+          docker push $DOCKER_ATH_TAG
+          docker push $GITHUB_ATH_TAG
