@@ -17,7 +17,7 @@ MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 USER root                                                                                                                                    
 WORKDIR /root                                                                                                                                
                                                                                                                                              
-RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apt update && apt install wget bash jq yq build-base coreutils dnsutils curl && \
+RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apt update && apt install wget bash jq coreutils dnsutils curl && \
 mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
 echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt) "$@"' >> ./.ec/~tmp && \
 chmod +x ./.ec/~tmp                                                                                                                    
