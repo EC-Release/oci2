@@ -10,7 +10,7 @@
 #  author: apolo.yasuda@ge.com
 #
 
-FROM python:slim                                                                                                                             
+FROM python:slim-buster                                                                                                                            
                                                                                                                                              
 MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"                                                                                                
                                                                                                                                              
