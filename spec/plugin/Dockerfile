@@ -17,7 +17,7 @@ MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 USER root                                                                                                                                    
 WORKDIR /root                                                                                                                                
                                                                                                                                              
-RUN apt update && apt install -y git && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+RUN apt update && apt install -y git && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' > ./.ec/~tmp && \
 echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt) "$@"' >> ./.ec/~tmp && \
 chmod +x ./.ec/~tmp
 
