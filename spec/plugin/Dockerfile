@@ -14,12 +14,11 @@ FROM enterpriseconnect/agent:v1
 
 MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
 
-ARG EC_REV_V1BETA=v1.hokkaido.212
+USER root                                                                                                                                    
+WORKDIR /root                                                                                                                                
+                                                                                                                                             
+RUN apt update && apt install -y git && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt) "$@"' >> ./.ec/~tmp && \
+chmod +x ./.ec/~tmp
 
-RUN ["/bin/bash", "-c", "wget -q --show-progress -O ~/v1.linux64.sh https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64.txt"]
-
-RUN apk add --no-cache git
-
-RUN chmod +x ~/v1.linux64.sh
-
-ENTRYPOINT ["./v1.linux64.sh"]
+ENTRYPOINT ["./.ec/~tmp"]
