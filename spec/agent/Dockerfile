@@ -10,19 +10,16 @@
 #  author: apolo.yasuda@ge.com
 #
 
-FROM alpine:3.12
-
-MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"
-
-USER root
-WORKDIR /root
-
-ARG EC_REV_V1BETA=v1.hokkaido.212
-
-RUN apk update && apk add --no-cache wget bash jq git
-
-RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apk update && apk add bash wget && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
-echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64_conf.txt) "$@"' >> ./.ec/~tmp && \
-chmod +x ./.ec/~tmp
-
+FROM ubuntu:latest                                                                                                                           
+                                                                                                                                             
+MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"                                                                                                
+                                                                                                                                             
+USER root                                                                                                                                    
+WORKDIR /root                                                                                                                                
+                                                                                                                                             
+RUN apt update && apt install -y wget && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec\
+/~tmp && \                                                                                                                                   
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64_conf.txt) "$@"' >> ./.ec/~tmp && \ 
+chmod +x ./.ec/~tmp                                                                                                                          
+                                                                                                                                             
 ENTRYPOINT ["./.ec/~tmp"]
