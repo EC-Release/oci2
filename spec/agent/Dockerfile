@@ -10,16 +10,15 @@
 #  author: apolo.yasuda@ge.com
 #
 
-FROM ubuntu:latest                                                                                                                           
+FROM debian:11-slim                                                                                                                         
                                                                                                                                              
 MAINTAINER Apolo Yasuda "apolo.yasuda@ge.com"                                                                                                
                                                                                                                                              
 USER root                                                                                                                                    
 WORKDIR /root                                                                                                                                
                                                                                                                                              
-RUN apt update && apt install -y wget && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec\
-/~tmp && \                                                                                                                                   
-echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64_conf.txt) "$@"' >> ./.ec/~tmp && \ 
-chmod +x ./.ec/~tmp                                                                                                                          
-                                                                                                                                             
+RUN apt update && apt install -y wget curl && echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && mkdir -p ~/.ec && echo '#!/bin/bash' >> ./.ec/~tmp && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/agt/v1.linux64_conf.txt) "$@"' >> ./.ec/~tmp && \
+chmod +x ./.ec/~tmp
+
 ENTRYPOINT ["./.ec/~tmp"]
