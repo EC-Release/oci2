@@ -11,7 +11,8 @@ jobs:
     environment: v1
     env:
       DOCKER_HUB_PLUGIN_TAG: "enterpriseconnect/plugins:v1"
-      GITHUB_PLG_TAG: "ghcr.io/ec-release/plg:v1"
+      GITHUB_PLG1_TAG: "ghcr.io/ec-release/plugins:v1"
+      GITHUB_PLG2_TAG: "ghcr.io/ec-release/plg:v1"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
@@ -40,7 +41,9 @@ jobs:
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           docker push $DOCKER_HUB_PLUGIN_TAG
-          docker tag $DOCKER_HUB_PLUGIN_TAG $GITHUB_PLG_TAG
+          docker tag $DOCKER_HUB_PLUGIN_TAG $GITHUB_PLG1_TAG
+          docker tag $DOCKER_HUB_PLUGIN_TAG $GITHUB_PLG2_TAG
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
-          docker push $GITHUB_PLG_TAG
+          docker push $GITHUB_PLG1_TAG
+          docker push $GITHUB_PLG2_TAG
     
