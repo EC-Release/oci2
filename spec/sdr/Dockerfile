@@ -18,8 +18,8 @@ USER root
 WORKDIR /root                                                                                                                                
                                                                                                                                              
 RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apt update && apt install -y wget bash jq coreutils dnsutils curl && \
-mkdir -p ~/.ec && echo '#!/bin/bash' > ./~api && \
-echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt) "$@"' >> ./~api && \
-chmod +x ./~api                                                                                                                    
-                                                                                                                                             
-ENTRYPOINT ["./~api"]
+mkdir -p ~/.ec && echo '#!/bin/bash' > ./~sdr && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/api/v1.2beta.linux64.txt) "$@"' >> ./~sdr && \
+chmod +x ./~sdr
+                                                                                                                              
+ENTRYPOINT ["./~sdr"]
