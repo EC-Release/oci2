@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ./spec/sdc && docker build -t $GITHUB_SDC_TAG . && cd -
           cd ./spec/agt && docker build -t $GITHUB_AGT_TAG . && cd -
-          cd ./spec/api && docker build -t $GITHUB_SDR_TAG . && cd -
+          cd ./spec/sdr && docker build -t $GITHUB_SDR_TAG . && cd -
    
       - name: Container Test
         env:
