@@ -17,16 +17,23 @@ jobs:
     environment: v1
     env:
       GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:1.2-b"
-      GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
+      #depreacted
+      #GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
+      GITHUB_API_TAG: "ghcr.io/ec-release/sdr:1.2-b"
       GITHUB_SDC_TAG: "ghcr.io/ec-release/sdc:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
       
-      # old tag
-      DOCKER_ATH_TAG: "enterpriseconnect/oauth:v1.2beta"
-      DOCKER_API_TAG: "enterpriseconnect/api:v1.2beta"
-      GITHUB_ATH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
-      GITHUB_OLD_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
+      #deprecated
+      #DOCKER_ATH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      DOCKER_ATH_TAG: "enterpriseconnect/sdc:1.2-b"
+      #deprecated
+      #DOCKER_API_TAG: "enterpriseconnect/api:v1.2beta"
+      DOCKER_API_TAG: "enterpriseconnect/sdr:1.2-b"
+      #deprecated
+      #GITHUB_ATH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
+      #deprecated
+      #GITHUB_OLD_API_TAG: "ghcr.io/ec-release/api:v1.2beta"
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
