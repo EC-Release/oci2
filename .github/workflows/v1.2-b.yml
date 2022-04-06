@@ -9,11 +9,19 @@ jobs:
     environment: v1
     env:
       DOCKER_HUB_AGT_TAG: "enterpriseconnect/agt:1.2-b"
-      DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
-      DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      #deprecated
+      #DOCKER_HUB_API_TAG: "enterpriseconnect/api:v1.2beta"
+      DOCKER_HUB_API_TAG: "enterpriseconnect/sdr:v1.2beta"
+      #deprecated
+      #DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/oauth:v1.2beta"
+      DOCKER_HUB_OAUTH_TAG: "enterpriseconnect/sdc:v1.2beta"
       GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:1.2-b"
-      GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
-      GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:1.2-b"
+      #deprecated
+      #GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
+      GITHUB_API_TAG: "ghcr.io/ec-release/sdr:1.2-b"
+      #deprecated
+      #GITHUB_OAUTH_TAG: "ghcr.io/ec-release/oauth:1.2-b"
+      GITHUB_OAUTH_TAG: "ghcr.io/ec-release/sdc:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
     
