@@ -19,17 +19,17 @@ jobs:
       GITHUB_AGT_TAG: "ghcr.io/ec-release/agt:1.2-b"
       #depreacted
       #GITHUB_API_TAG: "ghcr.io/ec-release/api:1.2-b"
-      GITHUB_API_TAG: "ghcr.io/ec-release/sdr:1.2-b"
+      GITHUB_SDR_TAG: "ghcr.io/ec-release/sdr:1.2-b"
       GITHUB_SDC_TAG: "ghcr.io/ec-release/sdc:1.2-b"
       GITHUB_REGISTRY: "https://ghcr.io"
       GITHUB_USR: "ayasuda-ge"
       
       #deprecated
       #DOCKER_ATH_TAG: "enterpriseconnect/oauth:v1.2beta"
-      DOCKER_ATH_TAG: "enterpriseconnect/sdc:1.2-b"
+      DOCKER_SDC_TAG: "enterpriseconnect/sdc:1.2-b"
       #deprecated
       #DOCKER_API_TAG: "enterpriseconnect/api:v1.2beta"
-      DOCKER_API_TAG: "enterpriseconnect/sdr:1.2-b"
+      DOCKER_SDR_TAG: "enterpriseconnect/sdr:1.2-b"
       #deprecated
       #GITHUB_ATH_TAG: "ghcr.io/ec-release/oauth:v1.2beta"
       #deprecated
@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ./spec/sdc && docker build -t $GITHUB_SDC_TAG . && cd -
           cd ./spec/agt && docker build -t $GITHUB_AGT_TAG . && cd -
-          cd ./spec/api && docker build -t $GITHUB_API_TAG . && cd -
+          cd ./spec/api && docker build -t $GITHUB_SDR_TAG . && cd -
    
       - name: Container Test
         env:
@@ -55,7 +55,7 @@ jobs:
         run: |
           docker run $GITHUB_AGT_TAG -ver
           #runtime test resplaced by int test
-          #docker run $GITHUB_API_TAG -ver
+          #docker run $GITHUB_SDR_TAG -ver
       - name: Container Images Deployment
         #if: github.event_name == 'push'
         env:
@@ -66,15 +66,10 @@ jobs:
           echo $REGISTRY_TKN_GITHUB | docker login $GITHUB_REGISTRY -u $GITHUB_USR --password-stdin
           docker push $GITHUB_AGT_TAG
           docker push $GITHUB_SDC_TAG
-          docker push $GITHUB_API_TAG
+          docker push $GITHUB_SDR_TAG
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker tag $GITHUB_SDC_TAG $DOCKER_ATH_TAG
-          docker tag $GITHUB_SDC_TAG $GITHUB_ATH_TAG
-          docker push $DOCKER_ATH_TAG
-          docker push $GITHUB_ATH_TAG
-          docker tag $GITHUB_API_TAG $DOCKER_API_TAG
-          docker tag $GITHUB_API_TAG $GITHUB_OLD_API_TAG
-          docker push $DOCKER_API_TAG
-          docker push $GITHUB_OLD_API_TAG
-          
+          docker tag $GITHUB_SDC_TAG $DOCKER_SDC_TAG
+          docker push $DOCKER_SDC_TAG
+          docker tag $GITHUB_SDR_TAG $DOCKER_SDR_TAG
+          docker push $DOCKER_SDR_TAG          
           
