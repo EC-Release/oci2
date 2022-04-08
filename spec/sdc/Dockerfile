@@ -19,7 +19,7 @@ WORKDIR /root
 
 RUN echo 'export PATH=$PATH:$HOME/.ec' >> /etc/profile && apt update && apt install -y wget bash jq coreutils dnsutils curl procps && mkdir -p ./.ec && \
 echo '#!/bin/bash' > ./~sdc && \
-echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/oauth/v1.2beta.linux64.txt) "$@"' >> ./~sdc && \
+echo 'source <(wget -q -O - https://raw.githubusercontent.com/EC-Release/sdk/disty/scripts/sdc/v1.2beta.linux64.txt) "$@"' >> ./~sdc && \
 chmod +x ./~sdc
 
 ENTRYPOINT ["./~sdc"]
